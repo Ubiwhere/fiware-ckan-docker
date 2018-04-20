@@ -1,0 +1,36 @@
+version: '3'
+services:
+  postgres:
+    image: mdillon/postgis:9.2
+    hostname: postgres
+    env_file: .env
+    volumes:
+      - ./postgres:/docker-entrypoint-initdb.d/
+
+  solr:
+    image: solr:6.6.2
+    hostname: solr
+    volumes:
+      - ./solr/ckan:/opt/solr/server/solr/ckan
+
+  datapusher:
+    build: datapusher
+    hostname: datapusher
+
+  redis:
+    image: redis:4
+
+  ckan:
+    build: .
+    hostname: ckan
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - postgres
+      - solr
+      - redis
+    volumes:
+      - ./ckan/production.ini:/etc/ckan/default/production.ini
+    env_file: .env
