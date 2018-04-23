@@ -8,10 +8,8 @@ services:
       - ./postgres:/docker-entrypoint-initdb.d/
 
   solr:
-    image: solr:6.6.2
+    image: ckan/solr
     hostname: solr
-    volumes:
-      - ./solr/ckan:/opt/solr/server/solr/ckan
 
   datapusher:
     build: datapusher
