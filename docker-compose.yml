@@ -6,6 +6,7 @@ services:
     env_file: .env
     volumes:
       - ./postgres:/docker-entrypoint-initdb.d/
+      - ckan_postgres_db:/var/lib/postgresql/data
 
   solr:
     image: ckan/solr
@@ -30,5 +31,12 @@ services:
       - solr
       - redis
     volumes:
-      - ./ckan/production.ini:/etc/ckan/default/production.ini
+      - ./ckan/configs.ini:/etc/ckan/default/configs.ini
+      - ckan_config:/etc/ckan/default
+      - ckan_filestore_data:/var/lib/ckan/default
     env_file: .env
+
+volumes:
+  ckan_postgres_db:
+  ckan_config:
+  ckan_filestore_data:
