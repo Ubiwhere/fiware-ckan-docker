@@ -5,13 +5,15 @@ set -eu
 # Initialize CKAN if it hasn't already been done
 if [ ! -e "${CKAN_CONFIG}/.ckan_initialized" ]; then
   
+  paster make-config --no-interactive ckan "${CKAN_CONFIG}/production.ini"
+  paster --plugin=ckan config-tool "${CKAN_CONFIG}/production.ini" -f "${CKAN_CONFIG}/configs.ini"
   paster --plugin=ckan db init -c "${CKAN_CONFIG}/production.ini"
 
   # Create a default sysadmin user
   if [ ${CKAN_SYSADMIN} = "true" ]; then
     /usr/bin/expect << EOF | tee -a /etc/ckan/default/.ckan_sysadmin
       set timeout 2
-      spawn paster --plugin=ckan sysadmin -c ${CKAN_CONFIG}/production.ini add ${CKAN_ADMIN} email=${CKAN_ADMIN_EMAIL}
+      spawn paster --plugin=ckan sysadmin -c "${CKAN_CONFIG}/production.ini" add ${CKAN_ADMIN} email=${CKAN_ADMIN_EMAIL}
       expect "Create new user.*"
       send -- "y\r"
       expect "password.*"
