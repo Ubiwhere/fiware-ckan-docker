@@ -1,6 +1,23 @@
-# FiWare CKAN Docker Image
+# Docker Files for FIWARE Labs (partially) flavoured CKAN
 
-## Deploying Fiware - CKAN Docker Instance
+[CKAN](https://github.com/ckan/ckan) is a powerful Data Management system used to power Open Data catalogues across the world, including many national
+portals. It has many publishing and curating features and offers a full API to access both the metadata and certain data formats.
+
+Full documentation for CKAN can be found at http://docs.ckan.org.
+
+## How to use these Docker files with Docker Compose
+
+This requires [Docker Compose](https://docs.docker.com/compose/) to be installed.
+
+Docker Compose will take care of running and linking the following services:
+
+* Postgres
+* Solr
+* Redis
+* DataPusher
+* CKAN itself
+
+There are a few things to be done before launching the instance:
 
 1. Edit `.env` and change variables to suit your needs:
 	- Change `PASSWORD` and `RO_PASSWORD`
@@ -8,9 +25,12 @@
 	- If you wish to create an initial CKAN Admin, change `CKAN_SYSADMIN` to `true` and add needed information
 
 2. If needed, add any aditional override settings in `configs.ini` (like SMTP configuration or OAuth settings)
-3. Launch using docker-compose with `docker-compose up --build --force-rm -d`
 
-Enjoy!
+Once you've completed the above steps, launch your CKAN instance with Docker Compose
+
+	docker-compose up --build --force-rm -d
+
+After a couple of minutes, your CKAN instance should be available at the url defined in `CKAN_SITE_URL`
 
 ## Features
 
