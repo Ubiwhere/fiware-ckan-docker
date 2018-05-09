@@ -18,6 +18,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get upgrade -qqy \
 	&& pip install -e git+https://github.com/conwetlab/ckanext-privatedatasets.git#egg=ckanext-privatedatasets \
 	&& pip install -e git+https://github.com/conwetlab/ckanext-storepublisher.git#egg=ckanext-storepublisher \
 	&& mkdir -p /etc/ckan/default/ \
+	&& mkdir -p /var/lib/ckan/default \
 	&& cp src/ckan/ckan/config/who.ini /etc/ckan/default/ \
 	&& ln -sf /dev/stdout /var/log/nginx/access.log \
 	&& ln -sf /dev/stderr /var/log/nginx/error.log \
@@ -35,7 +36,7 @@ ADD ./ckan/ckan.py /etc/ckan/default/
 EXPOSE 80 443
 
 VOLUME ["/etc/ckan/default"]
-VOLUME ["/var/lib/ckan"]
+VOLUME ["/var/lib/ckan/default"]
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/usr/bin/supervisord"]
