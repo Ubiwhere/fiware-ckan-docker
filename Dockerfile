@@ -4,6 +4,9 @@ WORKDIR /usr/lib/ckan/default
 
 ADD ./ckan/entrypoint.sh /
 
+ENV CKAN_CONFIG=/etc/ckan/default \
+	CKAN_HOME=/usr/lib/ckan/default
+
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get upgrade -qqy \
 	&& DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
 	git-core nginx supervisor expect \
