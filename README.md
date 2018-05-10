@@ -28,7 +28,8 @@ There are a few things to be done before launching the instance:
 
 Once you've completed the above steps, launch your CKAN instance with Docker Compose
 
-	docker-compose up --build --force-recreate -d
+	docker-compose build --pull --force-rm
+	docker-composer up -d
 
 After a couple of minutes, your CKAN instance should be available at the url defined in `CKAN_SITE_URL`
 
